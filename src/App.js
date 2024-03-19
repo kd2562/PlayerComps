@@ -2,7 +2,7 @@ import Header from './Header.js'
 import  { useState } from 'react';
 
 function App() {
-	const [title] = useState('TruMedia Data Viz')
+	const [title] = useState('TruMedia Data Viz Project')
   return (
 		<>
 			<Header title={title}/>

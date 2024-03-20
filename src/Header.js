@@ -1,8 +1,8 @@
 function Header({title}: {title: string}) {
   return (
-    <h3>
+    <h2>
       {title}
-    </h3>
+    </h2>
   );
 }
 

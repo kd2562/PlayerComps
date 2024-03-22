@@ -20,20 +20,20 @@ const margins = {left: 50, top: 50, right: 50, bottom: 50}
 
 function RadarPlot({sortedVals, aggData, playerId, index}) {
 	const svgRef = useRef(null)
-	const [svgWidth, setSVGWidth] = useState(document?.body?.offsetWidth/(document?.body?.offsetWidth < 600 ? 1 : 3 )|| 300)
-	const [svgHeight, setSVGHeight] = useState(document?.body?.offsetWidth/(document?.body?.offsetWidth < 600 ? 1 : 3 ) || 300)
+	const [svgWidth, setSVGWidth] = useState(document?.body?.offsetWidth/(document?.body?.offsetWidth < 584 ? 1 : 3 )|| 300)
+	const [svgHeight, setSVGHeight] = useState(document?.body?.offsetWidth/(document?.body?.offsetWidth < 584 ? 1 : 3 ) || 300)
 
 	// Redraw plot on window resize
 	useEffect(() => {
 		if(document?.body){
-			setSVGWidth(document.body.offsetWidth/(document?.body?.offsetWidth < 600 ? 1 : 3 ))
-			setSVGHeight(document.body.offsetWidth/(document?.body?.offsetWidth < 600 ? 1 : 3 ))
+			setSVGWidth(document.body.offsetWidth/(document?.body?.offsetWidth < 584 ? 1 : 3 ))
+			setSVGHeight(document.body.offsetWidth/(document?.body?.offsetWidth < 584 ? 1 : 3 ))
 		}
 
 		function handleResize(this: Window){
 			if(document?.body){
-				setSVGWidth(document.body.offsetWidth/(document?.body?.offsetWidth < 600 ? 1 : 3 ))
-				setSVGHeight(document.body.offsetWidth/(document?.body?.offsetWidth < 600 ? 1 : 3 ))
+				setSVGWidth(document.body.offsetWidth/(document?.body?.offsetWidth < 584 ? 1 : 3 ))
+				setSVGHeight(document.body.offsetWidth/(document?.body?.offsetWidth < 584 ? 1 : 3 ))
 			}
 		}
 

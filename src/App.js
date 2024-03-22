@@ -81,7 +81,7 @@ function App() {
 						isOptionEqualToValue={(a, b) => a.id === b.id}
 					/>
 				</Grid>
-				{selectedPlayers.map((d, j) => <Grid key={d.playerId} item xs={12} sm={4}> <RadarPlot sortedVals={sortedVals} aggData={aggData} playerId={d} index={j}/> </Grid>)}
+				{selectedPlayers.map((d, j) => <Grid key={d.playerId} item xs={12} sm={3.9}> <RadarPlot sortedVals={sortedVals} aggData={aggData} playerId={d} index={j}/> </Grid>)}
 			 </Grid>
 		</>
   );

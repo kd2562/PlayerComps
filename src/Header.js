@@ -12,7 +12,7 @@ function Header({title}: {title: string}) {
 			width: '100%',
 			borderBottom: '1px solid gray',
 			boxShadow: `black 0px 0px 10px`}}>
-	    <Typography variant="h2" sx={{ paddingLeft: '10px', color: '#F1E4C3', fontSize: '30px', marginTop: '20px', marginBottom: '20px'}}>
+	    <Typography variant="h2" sx={{ paddingLeft: '10px', color: '#F1E4C3', fontSize: '30px', marginTop: '20px', marginBottom: '20px', fontFamily: 'Trebuchet MS'}}>
 	      {title}
 	    </Typography>
 		</Box>

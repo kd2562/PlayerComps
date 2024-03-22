@@ -2,7 +2,7 @@ import Header from './Header.js'
 import  { useState, useEffect, useRef } from 'react';
 import *  as d3 from 'd3'
 import { apiKey } from './constants.js'
-
+import Box from '@mui/material/Box'
 const margins = {left: 5, top: 5, right: 5, bottom: 5}
 
 function App() {
@@ -93,9 +93,9 @@ function App() {
   return (
 		<>
 			<Header title="Player Comps"/>
-			<div style={{display: 'flex', justifyContent: 'flex-start', gap: 4, width: '50%', marginTop: '90px'}}>
-	     	<svg ref={svgRef} style={{ border: '1px solid #597E52', backgroundColor: 'white'}}> </svg>
-			 </div>
+			<Box sx={{display: 'flex', justifyContent: 'flex-start', gap: 4, width: '50%', marginTop: '90px'}}>
+	     	<svg ref={svgRef}> </svg>
+			 </Box>
 		</>
   );
 }

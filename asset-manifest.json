@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/PlayerComps/static/css/main.973de99b.css",
-    "main.js": "/PlayerComps/static/js/main.9ec06804.js",
+    "main.js": "/PlayerComps/static/js/main.7956abec.js",
     "index.html": "/PlayerComps/index.html",
     "main.973de99b.css.map": "/PlayerComps/static/css/main.973de99b.css.map",
-    "main.9ec06804.js.map": "/PlayerComps/static/js/main.9ec06804.js.map"
+    "main.7956abec.js.map": "/PlayerComps/static/js/main.7956abec.js.map"
   },
   "entrypoints": [
     "static/css/main.973de99b.css",
-    "static/js/main.9ec06804.js"
+    "static/js/main.7956abec.js"
   ]
 }

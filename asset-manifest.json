@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/PlayerComps/static/css/main.973de99b.css",
+    "main.js": "/PlayerComps/static/js/main.ad1d276e.js",
+    "index.html": "/PlayerComps/index.html",
+    "main.973de99b.css.map": "/PlayerComps/static/css/main.973de99b.css.map",
+    "main.ad1d276e.js.map": "/PlayerComps/static/js/main.ad1d276e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.973de99b.css",
+    "static/js/main.ad1d276e.js"
+  ]
+}

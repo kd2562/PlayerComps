@@ -161,11 +161,9 @@ function RadarPlot({sortedVals, aggData, playerId, index}) {
 			<svg ref={svgRef}> </svg>
 			<table style={{fontSize: abbreviate ? '12px' : '14px', width: '80%', marginLeft: '10%', tableLayout: 'fixed', marginBottom: '20px', border: '1px solid black', borderCollapse: 'collapse'}}>
 				<tr style={{borderBottom: '.5px solid black'}}>
-					<th style={{paddingX: '4px'}}> K% </th>
-					<th style={{paddingX: '4px'}}> BB% </th>
-					<th style={{paddingX: '4px'}}> OPS </th>
-					<th style={{paddingX: '4px'}}> SB </th>
-					<th style={{paddingX: '4px'}}> BA </th>
+					{['K%', 'BB%', 'OPS', 'SB', 'BA'].map((d) => {
+							return <th style={{paddingX: '4px'}}> {d} </th>
+					})}
 				</tr>
 				<tr>
 					{['K', 'BB', 'OPS', 'SB', 'BA'].map((d) => {

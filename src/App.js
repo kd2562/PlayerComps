@@ -1,17 +1,18 @@
 import Header from './Header.js'
 import RadarPlot, {getVals} from './RadarPlot.js'
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import *  as d3 from 'd3'
 import { apiKey, initVals } from './constants.js'
 import Grid from '@mui/material/Grid'
 import Autocomplete from '@mui/material/Autocomplete'
 import TextField from '@mui/material/TextField'
 
+
+
 function App() {
 	const [token, setToken] = useState(null)
 	const [prevToken, setPrevToken] = useState(null)
 	const [aggData, setAggData]  = useState([])
-
 
 	const [sortedVals, setSortedVals] = useState(initVals)
 	// Initialize players with Acuna
@@ -73,15 +74,15 @@ function App() {
 						}}
 						value={selectedPlayers.map((d) => {
 							const player = aggData.find((a) => a.playerId === d )
-							return {label: player?.abbrevName, id: player?.playerId}
+							return {label: player?.playerFullName, id: player?.playerId}
 						})}
-						options={aggData?.map((d) => ({label: d.abbrevName, id: d.playerId}))}
+						options={aggData?.map((d) => ({label: d.playerFullName, id: d.playerId}))}
 						getOptionLabel={(option) => option.label}
 						renderInput={(params) => <TextField {...params} label="Select Players" />}
 						isOptionEqualToValue={(a, b) => a.id === b.id}
 					/>
 				</Grid>
-				{selectedPlayers.map((d, j) => <Grid key={d.playerId} item xs={12} sm={3.9}> <RadarPlot sortedVals={sortedVals} aggData={aggData} playerId={d} index={j}/> </Grid>)}
+				{selectedPlayers.map((d, j) => <Grid key={d.playerId} item xs={12} sm={4}> <RadarPlot sortedVals={sortedVals} aggData={aggData} playerId={d} index={j}/> </Grid>)}
 			 </Grid>
 		</>
   );

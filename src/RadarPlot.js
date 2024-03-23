@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as d3 from 'd3'
 import { initVals } from './constants.js'
-
+import {Box, Badge, Avatar} from '@mui/material'
 export const getVals = (row, stat) => {
 	if(stat === 'OPS' && row){
 		return Number(row.SLG) + Number(row.OBP)
@@ -15,13 +15,20 @@ export const getVals = (row, stat) => {
 }
 const colorScheme = d3.schemeTableau10
 
-const margins = {left: 50, top: 50, right: 50, bottom: 50}
 
+const colorScale = d3.scaleLinear().domain([-100, 50, 200]).range(['blue', 'white', 'red'])
 
 function RadarPlot({sortedVals, aggData, playerId, index}) {
 	const svgRef = useRef(null)
 	const [svgWidth, setSVGWidth] = useState(document?.body?.offsetWidth/(document?.body?.offsetWidth < 584 ? 1 : 3 )|| 300)
 	const [svgHeight, setSVGHeight] = useState(document?.body?.offsetWidth/(document?.body?.offsetWidth < 584 ? 1 : 3 ) || 300)
+
+	const abbreviate = svgWidth < 400
+
+	const margins = {left: 40, top: abbreviate ? 25 : 40, right: 40, bottom: 40}
+
+
+	const playerData = aggData.find((a) => a.playerId === playerId)
 
 	// Redraw plot on window resize
 	useEffect(() => {
@@ -40,12 +47,11 @@ function RadarPlot({sortedVals, aggData, playerId, index}) {
 		window.addEventListener('resize', handleResize)
 		return () => window.removeEventListener('resize', handleResize)
 
-	}, [svgRef.current])
+	}, [])
 
 	// Do not redraw plot on every render
 	useEffect(() => {
 		d3.select(svgRef.current).selectAll('*').remove()
-		const height = svgHeight - margins.top - margins.bottom
 		const width = svgWidth - margins.left - margins.right
 
 		const svg = d3.select(svgRef.current)
@@ -73,19 +79,34 @@ function RadarPlot({sortedVals, aggData, playerId, index}) {
 			.text((p) => p)
 			.attr('x', (p, i) => {
 					const rad = ((i*360/5)-90)*(Math.PI/180)
-					return xScale(Math.cos(rad)*55)
+					return xScale(Math.cos(rad)*(55))
 			})
 			.attr('y', (p, i) => {
 					const rad = ((i*360/5)-90)*(Math.PI/180)
-						return xScale(Math.sin(rad)*55)
+					return xScale(Math.sin(rad)*(55))
 			})
-			.attr('font-size', '14px')
+			.attr('font-size', svgWidth < 300 ? '12px' : '16px')
 			.attr('font-weight', 'medium')
 			.style('font-family', 'Trebuchet MS')
 			.style('text-anchor', 'middle')
 			.style('alignment-baseline', 'middle')
 
-			const playerData = aggData.find((a) => a.playerId === playerId)
+			console.log(playerData)
+			svg.selectAll('iles')
+				.data( svgWidth < 400 ? [20,60, 100] : [20,40,60,80,100])
+				.enter()
+				.append('text')
+				.text((p) => p === 100 ?`${p}%-ile` : p)
+				.attr('x', (p) => {
+						return xScale(p/2)
+				})
+				.attr('y', width/2)
+				.attr('font-size', '10px')
+				.style('font-family', 'Trebuchet MS')
+				.style('text-anchor', 'staft')
+				.style('alignment-baseline', 'middle')
+				.style('fill', 'gray')
+
 			if(playerData){
 				const playerCoords = []
 				Object.keys(initVals).forEach((v, i) => {
@@ -100,7 +121,9 @@ function RadarPlot({sortedVals, aggData, playerId, index}) {
 			   .attr("points", playerCoords.map((p) => [p.x, p.y].join(',')))
 			   .attr("fill", colorScheme[index])
 				 .attr('opacity', .4)
-			   .style("stroke", "black")
+			   .style("stroke", 'black')
+				 .attr('stroke-width', '2px')
+
 
 				svg.selectAll('playerPts')
 				.data(playerCoords)
@@ -113,10 +136,59 @@ function RadarPlot({sortedVals, aggData, playerId, index}) {
 				.attr('stroke', 'black')
 			}
 
-	}, [aggData, svgWidth, svgHeight, playerId])
+	}, [aggData, svgWidth, svgHeight, playerId, index, sortedVals, playerData, margins.left, margins.top, margins.right])
+
 
   return (
-		<svg ref={svgRef}> </svg>
+		<Box sx={{fontFamily: 'Trebuchet MS'}}>
+
+			<Box sx={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center',  paddingTop: 1, paddingLeft: 3, gap: 1}}>
+			{playerData && (
+				<>
+					<Badge
+						overlap="circular"
+						anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+						badgeContent={
+							<Avatar sx={{width: abbreviate ? '0px' : '15px', height: abbreviate ? '0px' : '15px'}} src={playerData.teamImage} />
+						}
+					>
+						<Avatar sx={{width: abbreviate ? '22px' : '42px', height: abbreviate ? '22px' : '42px', border: '1px solid gray', backgroundColor: 'white'}}src={playerData.playerImage} />
+					</Badge>
+					<Box sx={{ fontSize: abbreviate ? '12px' : '20px'}}> {playerData.abbrevName} </Box>
+				</>
+			)}
+			</Box>
+			<svg ref={svgRef}> </svg>
+			<table style={{fontSize: abbreviate ? '12px' : '14px', width: '80%', marginLeft: '10%', tableLayout: 'fixed', marginBottom: '20px', border: '1px solid black', borderCollapse: 'collapse'}}>
+				<tr style={{borderBottom: '.5px solid black'}}>
+					<th style={{paddingX: '4px'}}> K% </th>
+					<th style={{paddingX: '4px'}}> BB% </th>
+					<th style={{paddingX: '4px'}}> OPS </th>
+					<th style={{paddingX: '4px'}}> SB </th>
+					<th style={{paddingX: '4px'}}> BA </th>
+				</tr>
+				<tr>
+					{['K', 'BB', 'OPS', 'SB', 'BA'].map((d) => {
+						if(playerData){
+							const val = getVals(playerData, d)
+							let formattedVal = d3.format(['K', 'BB'].includes(d) ? '.1%' : d === 'SB' ? '' : '.3f')(val)
+							if(d === 'OPS' || d === 'BA'){
+								formattedVal = formattedVal.replace('0.', '.')
+							}
+							console.log(sortedVals)
+							let ile = (sortedVals[d].filter((s) => s <= val).length/aggData.length)
+							if(d === 'K'){
+								ile = 1 - ile
+							}
+							console.log(d, playerData.abbrevName, ile)
+							return <td style={{textAlign: 'center', paddingX: '4px', backgroundColor: colorScale(ile*100)}}> {formattedVal} </td>
+						}
+						return <td> -- </td>
+
+					})}
+				</tr>
+			</table>
+		 </Box>
   );
 }
 

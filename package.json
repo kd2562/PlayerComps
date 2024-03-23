@@ -1,7 +1,7 @@
 {
   "name": "trumedia-data-viz",
   "version": "0.1.0",
-  "homepage": "https://kdorian22.github.io/PlayerComps/",
+  "homepage": "https://kd2562.github.io/PlayerComps/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.4",

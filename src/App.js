@@ -1,18 +1,24 @@
 import Header from './Header.js'
+import SearchAutocomplete from './SearchAutocomplete.js'
 import RadarPlot, {getVals} from './RadarPlot.js'
+import Grid from '@mui/material/Grid'
 import React, { useState } from 'react';
 import *  as d3 from 'd3'
 import { apiKey, initVals } from './constants.js'
-import Grid from '@mui/material/Grid'
-import Autocomplete from '@mui/material/Autocomplete'
-import TextField from '@mui/material/TextField'
 
 function App() {
+	// Store token
 	const [token, setToken] = useState(null)
+
+	// Store previous token to prevent re-renders
 	const [prevToken, setPrevToken] = useState(null)
+
+	// Store season data from API
 	const [aggData, setAggData]  = useState([])
 
+	// Store sorted values to calculate percentiles
 	const [sortedVals, setSortedVals] = useState(initVals)
+
 	// Initialize players with Acuna
 	const [selectedPlayers, setSelectedPlayers] = useState([660670])
 	// Get token
@@ -64,23 +70,14 @@ function App() {
 		<>
 			<Header title="Offensive Player Comps"/>
 			<Grid container sx={{marginTop: '90px'}}>
-			<Grid item xs={12}>
-					<Autocomplete
-						multiple
-						onChange={(e, v) => {
-							setSelectedPlayers(v.map((d) => d.id))
-						}}
-						value={selectedPlayers.map((d) => {
-							const player = aggData.find((a) => a.playerId === d )
-							return {label: player?.playerFullName, id: player?.playerId}
-						})}
-						options={aggData?.map((d) => ({label: d.playerFullName, id: d.playerId}))}
-						getOptionLabel={(option) => option.label}
-						renderInput={(params) => <TextField {...params} label="Select Players" />}
-						isOptionEqualToValue={(a, b) => a.id === b.id}
-					/>
+				<Grid item xs={12}>
+					<SearchAutocomplete selectedPlayers={selectedPlayers} setSelectedPlayers={setSelectedPlayers} aggData={aggData}/>
 				</Grid>
-				{selectedPlayers.map((d, j) => <Grid key={d.playerId} item xs={12} sm={4}> <RadarPlot sortedVals={sortedVals} aggData={aggData} playerId={d} index={j}/> </Grid>)}
+				{selectedPlayers.map((d, j) =>
+					<Grid key={d.playerId} item xs={12} sm={4}>
+						<RadarPlot sortedVals={sortedVals} aggData={aggData} playerId={d} index={j}/>
+					</Grid>
+				)}
 			 </Grid>
 		</>
   );
